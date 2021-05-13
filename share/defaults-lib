@@ -111,7 +111,7 @@ detect_iface() {
     # Check if $FRONTEND_IP contains a valid ip
     [[ ${FRONTEND_IP} =~ ${ip_re} ]] &&
     for net in /sys/class/net/*; do
-        ifconfig ${net##*/} 2>/dev/null | grep -Eq "addr:${FRONTEND_IP}\s" &&
+        ifconfig ${net##*/} 2>/dev/null | grep -Eq "inet ${FRONTEND_IP}\s" &&
             export KESTREL_IFACE=${net##*/} && 
             return 0
     done

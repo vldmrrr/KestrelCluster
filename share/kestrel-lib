@@ -155,11 +155,11 @@ check_image() {
         die "The image \"${image_name}\" hasn't been found"
     
     # Verify the image is not being currently used
-    [[ -n "${2}" || -f "${KESTREL_LOCK_DIR}/${image_name}.running" ]] && \
+    [[ -s "${2}" && -f "${KESTREL_LOCK_DIR}/${image_name}.running" ]] && \
         die "The image \"${image_name}\" is being used by some client node"
     
     # Verify the image is not being currently used
-    [[ -n "${2}" || -f "${KESTREL_LOCK_DIR}/${image_name}.running-lxc" ]] && \
+    [[ -z "${2}" && -f "${KESTREL_LOCK_DIR}/${image_name}.running-lxc" ]] && \
         die "The image \"${image_name}\" is being used by some client node"
 }
 
@@ -314,7 +314,7 @@ user_sshkeygen() {
     [[ -L ${home_link} || ! -e ${home_link} ]] &&
         ( cd /; ln -snf ${user_khome} ${home_link} )
     
-    rm -f ${user_home}/.ssh/kestrel_id_dsa{,.pub}
+    rm -f ${user_home}/.ssh/kestrel_id_rsa{,.pub}
     
     if [[ "/${KESTREL_HOME}/" != "/home/" ]]; then
         rm -f ${user_khome}/.ssh/authorized_keys
@@ -322,11 +322,11 @@ user_sshkeygen() {
         test_backup ${user_khome}/.ssh/authorized_keys
     fi
     
-    ssh-keygen -q -t dsa -N "" -f "${user_home}/.ssh/kestrel_id_dsa"
+    ssh-keygen -q -t rsa -N "" -f "${user_home}/.ssh/kestrel_id_rsa"
     
     # Add the created public certiticate to the authorized keys file on the 
     # exported kestrel-home
-    cat     <  ${user_home}/.ssh/kestrel_id_dsa.pub \
+    cat     <  ${user_home}/.ssh/kestrel_id_rsa.pub \
            >> ${user_khome}/.ssh/authorized_keys
     chmod 600 ${user_khome}/.ssh/authorized_keys
     
@@ -336,9 +336,9 @@ user_sshkeygen() {
 
     local bashrc=${user_home}/.bashrc
     if [ -e "${bashrc}" ]; then
-       sed -ir '/ssh-add.*kestrel_id_dsa/d'                   ${bashrc}
-       echo "ssh-add -d ~/.ssh/kestrel_id_dsa &>/dev/null" >> ${bashrc}
-       echo "ssh-add    ~/.ssh/kestrel_id_dsa &>/dev/null" >> ${bashrc}
+       sed -ir '/ssh-add.*kestrel_id_rsa/d'                   ${bashrc}
+       echo "ssh-add -d ~/.ssh/kestrel_id_rsa &>/dev/null" >> ${bashrc}
+       echo "ssh-add    ~/.ssh/kestrel_id_rsa &>/dev/null" >> ${bashrc}
     fi
 }
 

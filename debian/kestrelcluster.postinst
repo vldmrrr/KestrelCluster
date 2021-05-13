@@ -31,6 +31,7 @@ case "$1" in
 
         if ! id -u kestrel >/dev/null 2>&1; then
             adduser --disabled-password --shell /bin/bash --system --group \
+            --home ${KESTREL_DATA_DIR} \
             --quiet kestrel >/dev/null 2>&1
         fi
 

@@ -86,10 +86,10 @@ configure_frontend_ip() {
     
     result=$( select_net_device ) || return 1
     
-    msg="Insert the ip to be used to connect to the cluster LAN"
+    msg=("Insert the ip to be used to connect to the cluster LAN")
     
     while [[ ! "${result}" =~ ^${ip_re}$ ]]; do
-        result=$( kestrel_dialog inputbox "${title}" "$msg" "${FRONTEND_IP}" ) || \
+        result=$( kestrel_dialog inputbox "${title}" msg[@] "${FRONTEND_IP}" ) || \
             return 1
     done
 

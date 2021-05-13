@@ -5,14 +5,16 @@
 # to the real directory containing the image with nfs4, we also need to add an 
 # entry on the fstab file for the "mount binding"
 
+lib_modules=`readlink -en /lib/modules`
+
 if [ "$1" == "uninstall" ]; then
 
     mount_dir=$(mount | sed -rn \
                 "s/.*\s([^\ \t]*\/kestrel\/${image_name})\s+.*/\1/p")
 
     # umount the image
-    echo "umount \"${mount_dir}/lib/modules\""
-    umount ${mount_dir}/lib/modules
+    echo "umount \"${mount_dir}${lib_modules}\""
+    umount ${mount_dir}${lib_modules}
 
     echo "umount \"${mount_dir}\""
     umount ${mount_dir}
@@ -36,7 +38,7 @@ grep -Eq "${comment}" ${FILE} || echo -e "\n${comment}" >> ${FILE}
 # Add the entry after the comment
 sed -ri "/${comment}/a\
 ${image_dir} \t${new_mount_dir} \tnode \tbind \t0 \t0 \n\
-/lib/modules/ \t${new_mount_dir}/lib/modules/ \tnode \tbind \t0 \t0 \
+${lib_modules}/ \t${new_mount_dir}${lib_modules}/ \tnode \tbind \t0 \t0 \
 " ${FILE}
 
 # Check if the image is already mounted somewhere else
@@ -53,16 +55,16 @@ if [[ "${mount_dir}" != "${new_mount_dir}" ]]; then
     echo "Mounting new mount dir"
     
     echo "mount --bind \"${KESTREL_IMAGE_DIR}/${image_name}\" \"${new_mount_dir}\""
-    echo "mount --bind \"/lib/modules\" \"${new_mount_dir}/lib/modules\""
+    echo "mount --bind \"${lib_modules}/\" \"${new_mount_dir}${lib_modules}\""
     
     mount --bind ${KESTREL_IMAGE_DIR}/${image_name} ${new_mount_dir}
-    mount --bind /lib/modules ${new_mount_dir}/lib/modules
+    mount --bind ${lib_modules}/ ${new_mount_dir}${lib_modules}
     
     if [ -n "${mount_dir}" ]; then
-        echo "umount \"${mount_dir}/lib/modules\""
+        echo "umount \"${mount_dir}${lib_modules}\""
         echo "umount \"${mount_dir}\""
                 
-        umount ${mount_dir}/lib/modules
+        umount ${mount_dir}${lib_modules}
         umount ${mount_dir}
     fi
 fi

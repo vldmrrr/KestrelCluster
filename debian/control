@@ -2,7 +2,7 @@ Source: kestrelcluster
 Section: utils
 Priority: extra
 Maintainer: Jon Ander Hernández <jonan.h@gmail.com>
-Build-Depends: debhelper (>= 7.0), help2man
+Build-Depends: debhelper (>= 7.0), python-all, help2man
 Standards-Version: 3.9.1
 Homepage: http://kestrelhpc.sourceforge.net/
 Vcs-Git: git://github.com/jonanh/KestrelCluster.git
@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/jonanh/KestrelCluster
 
 Package: kestrelcluster
 Architecture: all
-Depends: lsb-release, syslinux, adduser, nfs-kernel-server, liblwipv6-2, dnsmasq, etherwake, debootstrap, dracut (>= 013), dracut-network (>= 013), openssh-server, ${python:Depends}, ${misc:Depends}
+Depends: lsb-release, syslinux, pxelinux, adduser, nfs-kernel-server, liblwipv6-2, dnsmasq, etherwake, debootstrap, dracut (>= 013), dracut-network (>= 013), openssh-server, python (>=2.6), ${python:Depends}, ${misc:Depends}
 Replaces: kestrelhpc
 Description: A set of utilities for setting up a cluster with live nodes
  It helps creating and managing live os image for the nodes, and setting all 
@@ -18,7 +18,7 @@ Description: A set of utilities for setting up a cluster with live nodes
 
 Package: kestrelcluster-ganglia
 Architecture: all
-Depends: kestrelcluster, ganglia-webfrontend, ganglia-monitor, gmetad, ${misc:Depends}
+Depends: kestrelcluster, ganglia-webfrontend, ganglia-monitor, gmetad, python (>=2.6), ${misc:Depends}
 Replaces: kestrelhpc-ganglia
 Description: A set of utilities for setting up a cluster with live nodes
  It helps creating and managing live os image for the nodes, and setting all 
@@ -41,7 +41,7 @@ Description: A set of utilities for setting up a cluster with live nodes
 
 Package: kestrelcluster-videowall
 Architecture: all
-Depends: kestrelcluster, xdmx, xdmx-tools, chromium-opengl-bin, chromium-opengl-lib, ${python:Depends}, ${misc:Depends}
+Depends: kestrelcluster, xdmx, xdmx-tools, chromium-opengl-bin, chromium-opengl-lib, python (>=2.6), ${python:Depends}, ${misc:Depends}
 Description: A set of utilities for setting up a cluster with live nodes
  It helps creating and managing live os image for the nodes, and setting all
  the required frontend's services (dhcp, tftpboot, nfs, ssh...).

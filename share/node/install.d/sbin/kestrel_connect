@@ -23,7 +23,7 @@ import subprocess
 s = xmlrpclib.ServerProxy("http://frontend:${KESTREL_RPC_PORT}")
 
 # Execute command num-of-cpus, and read the result
-num_cpus=subprocess.Popen( "num_of_cpus", 
+num_cpus=subprocess.Popen( "/sbin/num_of_cpus", 
                            shell=True, 
                            stdout=subprocess.PIPE, 
                            close_fds=True ).stdout.read()

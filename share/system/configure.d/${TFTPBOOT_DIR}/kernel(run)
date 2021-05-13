@@ -43,6 +43,9 @@ if [ -n "${KERNEL_VERSION}" ]; then
     
     cp /boot/initramfs-${KERNEL_VERSION}.img ${TFTPBOOT_DIR}/dracut-img ||
     warn_config "Failed copying initramfs! Try configuring again."
+
+    chmod 666 ${TFTPBOOT_DIR}/dracut-img
+    dracut -f --add nfs ${TFTPBOOT_DIR}/dracut-img
     
 else
     warn_config "No kernel found on the system"

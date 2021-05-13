@@ -197,7 +197,7 @@ check_flags() {
             
             # Label
             \"*\")
-                label=${flag}
+                label=$(eval echo $flag)
                 
                 # Check if the label is disabled
                 variable=${label}_disabled

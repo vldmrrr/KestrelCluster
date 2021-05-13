@@ -86,14 +86,14 @@ _new() {
         
         # Create the image using debootstrap
         if [ -n "${quiet}" ]; then
-            debootstrap "${OS_CODENAME}" "${image_dir}" > ${log} ||
+            debootstrap --include=apt-listchanges "${OS_CODENAME}" "${image_dir}" > ${log} ||
             # Finish correctly if debootstrap fails
             _trap_debootstrap \
                 "\n\nDeboostrap failed to create a basic system" \
                 "- Check the internet conection" \
                 "- Check the log : ${log}\n"
         else
-            debootstrap "${OS_CODENAME}" "${image_dir}" | tee ${log}
+            debootstrap --include=apt-listchanges "${OS_CODENAME}" "${image_dir}" | tee ${log}
             
             # Finish correctly if debootstrap fails
             [ ${PIPESTATUS[0]} -ne "0" ] && _trap_debootstrap \

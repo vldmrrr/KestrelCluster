@@ -35,8 +35,8 @@ add_to_images() {
         image_dir=${KESTREL_IMAGE_DIR}/${image}
 
         # Check if the image is valid and avoid deleted images
-        if [ -d "${image_dir}/usr" ]; then
-            warn "Invalid image: ${image}"
+        if [ ! -d "${image_dir}/usr" ]; then
+            warn "Invalid image: ${KESTREL_IMAGE_DIR}/${image}"
             continue
         fi
 

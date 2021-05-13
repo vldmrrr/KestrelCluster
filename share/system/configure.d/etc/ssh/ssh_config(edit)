@@ -27,7 +27,7 @@ if [ -z "${num}" ]; then
 Host ${KESTREL_HOSTNAME}-*
     StrictHostKeyChecking yes
     HashKnownHosts no
-    IdentityFile ~/.ssh/kestrel_id_dsa
+    IdentityFile ~/.ssh/kestrel_id_rsa
 EOF
 
 else
@@ -36,6 +36,6 @@ else
 Host ${KESTREL_HOSTNAME}-*\n\
     StrictHostKeyChecking yes\n\
     HashKnownHosts no\n\
-    IdentityFile ~/.ssh/kestrel_id_dsa\n" ${FILE}
+    IdentityFile ~/.ssh/kestrel_id_rsa\n" ${FILE}
 fi
 
